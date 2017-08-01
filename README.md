@@ -7,3 +7,7 @@
 #### Stub 
 这个类继承了Binder, 说明它是一个Binder本地对象，它实现了IInterface接口，表明它具有远程Server承诺给Client的能力；Stub是一个抽象类，具体的IInterface的相关实现需要我们手动完成。
 
+## BinderPool  
+### 需要多个AIDL进行进程间的通信时，我们需要减少Service的数量，将所有的AIDL放在同一个Service中去管理。（Binder连接池）
+在它内部来进行远程服务的绑定(BinderPool类中的connectBinderPoolService方法)，绑定成功后，客户端会通过queryBinder方法传入BINDER_CODE参数来获取各自对应的Binder，不同的业务就一个进行不同的操作。在BinderPoolService服务中，onBind()方法返回的就是IBinderPool.Stub。
+### 注：在绑定服务时，binder连接池中有断线重连机制，IBinder.DeathRecipient，当远程服务意外终止时，binderpool会重新建立连接，这个时候如果业务模块中的binder调用出现了异常，也需要手动去重新获取最新的Binder对象。
