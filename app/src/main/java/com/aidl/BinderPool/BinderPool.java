@@ -57,7 +57,7 @@ public class BinderPool {
         }
         return iBinder;
     }
-
+    //远程服务的绑定
     private synchronized void connectBinderPoolService(){
         mConnectBinderPoolCountDownLatch=new CountDownLatch(1);
         Intent intent=new Intent(mContext,BinderPoolService.class);
@@ -88,7 +88,7 @@ public class BinderPool {
 
         }
     };
-
+    //断线重连
    private IBinder.DeathRecipient mBinderPoolDeathRecipient=new IBinder.DeathRecipient() {
         @Override
         public void binderDied() {
